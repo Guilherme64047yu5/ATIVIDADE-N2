@@ -1,62 +1,107 @@
-﻿# BookStore â€” Sistema de Vendas de Livros
+# BookStore — Sistema de Vendas de Livros
 
-**Integrantes:** preencher com os nomes completos dos integrantes antes da entrega.  
-**Disciplina:** Testes de Software â€” Prof. Reinaldo Jr.  
-**Proposta:** sistema web para gerenciamento de uma pequena livraria, com autenticaÃ§Ã£o e operaÃ§Ãµes de cadastro, consulta, ediÃ§Ã£o e exclusÃ£o.
+**Integrante:** Guilherme Costa da Silva  
+**Disciplina:** Testes de Software — Reinaldo
+
+## Proposta
+Sistema web de gerenciamento e vendas de livros para uma pequena livraria. Permite cadastrar livros, categorias e usuários, registrar vendas, calcular valores e controlar automaticamente o estoque dos produtos vendidos.
 
 ## Funcionalidades
-- Login e logout com sessÃ£o; senhas armazenadas com BCrypt.
-- CRUD de livros: tÃ­tulo, autor, ISBN, preÃ§o, estoque e categoria.
-- CRUD de categorias: nome, descriÃ§Ã£o, departamento e situaÃ§Ã£o.
-- CRUD de usuÃ¡rios: nome, e-mail, senha e perfil.
-- APIs REST protegidas por sessÃ£o, exceto autenticaÃ§Ã£o.
-- Banco H2 relacional persistido em `./data/bookstoredb`.
+- Login e logout com controle de sessão.
+- Senhas protegidas com BCrypt.
+- Cadastro de usuários.
+- CRUD completo de livros.
+- CRUD completo de categorias.
+- Gerenciamento de usuários.
+- Cadastro e consulta de vendas.
+- Carrinho para adicionar e remover livros.
+- Cálculo automático de subtotais e total da venda.
+- Verificação de estoque antes da venda.
+- Baixa automática do estoque após a confirmação.
+- Histórico de vendas realizadas.
+- APIs REST protegidas por sessão.
+- Banco H2 persistido em `./data/bookstoredb`.
 
-## Tecnologias
-Java 17, Spring Boot 3.5.6, Spring Web, Spring Data JPA, Hibernate, H2, HTML, CSS, JavaScript, JUnit 5, Selenium 4 e REST-assured.
+## Tecnologias utilizadas
+- Java 17
+- Spring Boot 3.5.6
+- Spring Web
+- Spring Data JPA
+- Hibernate
+- H2 Database
+- HTML, CSS e JavaScript
+- JUnit 5
+- Selenium 4
+- REST-assured
 
-## PrÃ©-requisitos
-- JDK 17 instalado e configurado no PATH.
-- Maven 3.9+ (ou usar `mvnw`, caso adicionado pelo ambiente).
-- Google Chrome instalado para executar os testes Selenium.
+## Pré-requisitos
+- JDK 17 ou superior.
+- Maven instalado.
+- Google Chrome para os testes Selenium.
 
 ## Como executar
-1. Abra a pasta do projeto no VS Code ou NetBeans.
-2. No terminal, dentro da pasta que contÃ©m `pom.xml`, execute:
-   ```bash
-   mvn spring-boot:run
-   ```
-3. Acesse `http://localhost:8080/login.html`.
-4. Login inicial: **admin@bookstore.com** / **123456**.
+Na pasta do projeto, execute:
 
-O banco H2 Ã© criado automaticamente na primeira execuÃ§Ã£o. O console pode ser acessado em `http://localhost:8080/h2-console` (JDBC URL: `jdbc:h2:file:./data/bookstoredb`, usuÃ¡rio `sa`, senha em branco).
+    mvn spring-boot:run
+
+Acesse `http://localhost:8080/login.html`.
+
+**Login inicial:**
+- E-mail: `admin@bookstore.com`
+- Senha: `123456`
+
+**Console H2:** `http://localhost:8080/h2-console`
+
+- JDBC URL: `jdbc:h2:file:./data/bookstoredb`
+- Usuário: `sa`
+- Senha: em branco
 
 ## Como executar os testes
-Execute todos os testes:
-```bash
-mvn test
-```
-- **JUnit:** `LivroServiceUnitTest` contÃ©m 3 testes unitÃ¡rios de atributos e regras bÃ¡sicas.
-- **REST-assured:** `ApiRestAssuredTest` contÃ©m 2 testes de autenticaÃ§Ã£o e listagem autenticada.
-- **Selenium:** `SeleniumE2ETest` contÃ©m 2 testes de interface: tela de login e entrada no painel.
 
-Os testes Selenium abrem o Chrome automaticamente usando WebDriverManager. Ã‰ necessÃ¡rio ter o Chrome instalado e permitir o download do driver.
+Execute:
 
-## Endpoints principais
-| MÃ©todo | Endpoint | Finalidade |
+    mvn clean test
+
+O projeto possui 8 testes automatizados.
+
+### JUnit — 3 testes
+Classe: `LivroServiceUnitTest`
+
+- Livro com dados válidos.
+- Rejeição de livro sem título.
+- Rejeição de preço zero ou negativo.
+
+### REST-assured — 3 testes
+Classe: `ApiRestAssuredTest`
+
+- Autenticação pela API.
+- Listagem de livros após login.
+- Realização de venda e verificação da redução automática do estoque.
+
+### Selenium — 2 testes
+Classe: `SeleniumE2ETest`
+
+- Verificação da tela de login.
+- Verificação do acesso ao painel após autenticação.
+
+Os testes Selenium utilizam WebDriverManager para configurar o ChromeDriver.
+
+## Principais endpoints
+
+| Método | Endpoint | Finalidade |
 |---|---|---|
-| POST | `/api/auth/login` | autenticar |
-| POST | `/api/auth/logout` | sair |
-| GET/POST | `/api/livros` | listar/criar livros |
-| GET/PUT/DELETE | `/api/livros/{id}` | consultar/editar/excluir livro |
-| GET/POST | `/api/categorias` | listar/criar categorias |
-| GET/PUT/DELETE | `/api/categorias/{id}` | consultar/editar/excluir categoria |
-| GET/POST | `/api/usuarios` | listar/criar usuÃ¡rios |
-| PUT/DELETE | `/api/usuarios/{id}` | editar/excluir usuÃ¡rio |
+| POST | `/api/auth/login` | Realizar login |
+| POST | `/api/auth/logout` | Encerrar sessão |
+| POST | `/api/auth/cadastro` | Cadastrar usuário |
+| GET/POST | `/api/livros` | Listar e cadastrar livros |
+| GET/PUT/DELETE | `/api/livros/{id}` | Consultar, editar e excluir livros |
+| GET/POST | `/api/categorias` | Listar e cadastrar categorias |
+| GET/PUT/DELETE | `/api/categorias/{id}` | Consultar, editar e excluir categorias |
+| GET/POST | `/api/usuarios` | Listar e cadastrar usuários |
+| PUT/DELETE | `/api/usuarios/{id}` | Editar e excluir usuários |
+| POST | `/api/vendas` | Registrar uma venda |
+| GET | `/api/vendas` | Consultar histórico de vendas |
 
-## ObservaÃ§Ãµes para a entrega
-- Preencha os nomes dos integrantes.
-- Execute `mvn test` no computador da apresentaÃ§Ã£o e corrija qualquer problema de ambiente antes de gravar.
-- Grave o vÃ­deo demonstrando a execuÃ§Ã£o real dos testes; o README e o cÃ³digo nÃ£o substituem o vÃ­deo solicitado.
+## Resultado dos testes
 
-
+Na última execução de `mvn clean test`, os 8 testes automatizados passaram, sem falhas ou erros.
